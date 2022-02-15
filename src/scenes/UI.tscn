@@ -1,0 +1,260 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://src/scenes/UI.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/modern-pixel.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/UI/day-progress.png" type="Texture" id=3]
+[ext_resource path="res://assets/UI/day-progress-border.png" type="Texture" id=4]
+[ext_resource path="res://assets/UI/day-progress-fg.png" type="Texture" id=5]
+[ext_resource path="res://assets/UI/frame-left.png" type="Texture" id=6]
+
+[sub_resource type="StyleBoxTexture" id=7]
+content_margin_left = 10.0
+content_margin_right = 7.0
+content_margin_top = 10.0
+content_margin_bottom = 8.0
+texture = ExtResource( 6 )
+region_rect = Rect2( 0, 0, 24, 24 )
+margin_left = 6.0
+margin_right = 6.0
+margin_top = 6.0
+margin_bottom = 6.0
+
+[sub_resource type="StyleBoxEmpty" id=8]
+content_margin_top = 4.0
+
+[sub_resource type="DynamicFont" id=6]
+size = 20
+use_mipmaps = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=5]
+default_font = SubResource( 6 )
+Button/styles/hover = SubResource( 7 )
+Button/styles/normal = SubResource( 7 )
+Button/styles/pressed = SubResource( 7 )
+Label/styles/normal = SubResource( 8 )
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+
+uniform lowp float sun_rise: hint_range(0.0, 1440.0, 1.0) = 1.0;
+uniform lowp float sun_rise_time: hint_range(0.0, 1440.0, 1.0) = 1.0;
+uniform vec4 day_color: hint_color = vec4(0.99, 0.96, 0.63, 1.0);
+uniform lowp float sun_set: hint_range(0.0, 1440.0, 1.0) = 1.0;
+uniform lowp float sun_set_time: hint_range(0.0, 1440.0, 1.0) = 1.0;
+uniform vec4 night_color: hint_color = vec4(0.05, 0.1, 0.15, 1.0);
+
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	vec3 uv = vec3(floor(UV.x * 144.0) / 144.0);
+	//vec3 uv = vec3(UV.x);
+	if (uv.x < sun_rise / 1440.0) {
+		if (tex.r < 0.5) {
+			COLOR = night_color;
+		}
+	} else if (uv.x < (sun_rise_time + sun_rise ) / 1440.0 ) {
+		COLOR = mix(
+			night_color,
+			day_color,
+			smoothstep(sun_rise / 1440.0, (sun_rise_time + sun_rise) / 1440.0, uv.x)
+			);
+	} else if (uv.x < sun_set / 1440.0) {
+		COLOR = day_color;
+	} else if (uv.x < ( sun_set_time + sun_set ) / 1440.0 ) {
+		COLOR = mix(
+			day_color,
+			night_color,
+			smoothstep(sun_set / 1440.0, (sun_set_time + sun_set) / 1440.0, uv.x)
+			);
+	} else {
+		if (tex.r < 0.5) {
+			COLOR = night_color;
+		}
+		
+	}
+	COLOR.a = tex.a;
+//	COLOR.rgb = vec3(uv.x);
+}
+
+"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 4 )
+shader_param/sun_rise = 280.0
+shader_param/sun_rise_time = 72.0
+shader_param/day_color = Color( 0.99, 1, 0.85, 1 )
+shader_param/sun_set = 964.0
+shader_param/sun_set_time = 72.0
+shader_param/night_color = Color( 0, 0.113725, 0.231373, 1 )
+
+[node name="UI" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 5 )
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="."]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 958.0
+margin_bottom = 638.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox" type="HBoxContainer" parent="VBox"]
+margin_right = 956.0
+margin_bottom = 156.0
+
+[node name="PlayerStats" type="Button" parent="VBox/HBox"]
+margin_right = 156.0
+margin_bottom = 156.0
+rect_min_size = Vector2( 156, 156 )
+text = "Player Stats"
+
+[node name="HBox" type="HBoxContainer" parent="VBox/HBox"]
+margin_left = 160.0
+margin_right = 796.0
+margin_bottom = 106.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="VBox/HBox/HBox"]
+margin_right = 156.0
+margin_bottom = 106.0
+rect_min_size = Vector2( 156, 0 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Date" type="Button" parent="VBox/HBox/HBox/VBox"]
+margin_right = 156.0
+margin_bottom = 38.0
+text = "12-12-1212"
+
+[node name="Progress" type="TextureRect" parent="VBox/HBox/HBox/VBox"]
+margin_top = 40.0
+margin_right = 156.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VBox/HBox/HBox/VBox/Progress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_left = 6
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="TextureRect" parent="VBox/HBox/HBox/VBox/Progress/MarginContainer"]
+material = SubResource( 3 )
+margin_left = 6.0
+margin_right = 150.0
+margin_bottom = 40.0
+size_flags_horizontal = 0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FG" type="TextureRect" parent="VBox/HBox/HBox/VBox/Progress/MarginContainer/BG"]
+margin_left = 20.0
+margin_right = 25.0
+margin_bottom = 40.0
+size_flags_horizontal = 0
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Time" type="Label" parent="VBox/HBox/HBox/VBox"]
+margin_top = 82.0
+margin_right = 156.0
+margin_bottom = 106.0
+text = "00:00 pm"
+align = 1
+valign = 1
+
+[node name="Inventory" type="Button" parent="VBox/HBox/HBox"]
+margin_left = 160.0
+margin_right = 227.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 64, 0 )
+rect_pivot_offset = Vector2( -200, 73 )
+size_flags_vertical = 0
+text = "Items"
+
+[node name="Tasks" type="Button" parent="VBox/HBox/HBox"]
+margin_left = 231.0
+margin_right = 306.0
+margin_bottom = 106.0
+rect_min_size = Vector2( 64, 0 )
+rect_pivot_offset = Vector2( -200, 73 )
+text = "Tasks"
+
+[node name="Friends" type="Button" parent="VBox/HBox/HBox"]
+margin_left = 310.0
+margin_right = 393.0
+margin_bottom = 106.0
+rect_min_size = Vector2( 64, 0 )
+rect_pivot_offset = Vector2( -200, 73 )
+text = "Friends"
+
+[node name="Phone" type="Button" parent="VBox/HBox/HBox"]
+margin_left = 397.0
+margin_right = 470.0
+margin_bottom = 106.0
+rect_min_size = Vector2( 64, 0 )
+rect_pivot_offset = Vector2( -200, 73 )
+text = "Phone"
+
+[node name="Menu" type="Button" parent="VBox/HBox/HBox"]
+margin_left = 569.0
+margin_right = 636.0
+margin_bottom = 106.0
+rect_min_size = Vector2( 64, 0 )
+rect_pivot_offset = Vector2( -200, 73 )
+size_flags_horizontal = 10
+text = "Menu"
+
+[node name="MiniMap" type="Button" parent="VBox/HBox"]
+margin_left = 800.0
+margin_right = 956.0
+margin_bottom = 156.0
+rect_min_size = Vector2( 156, 156 )
+text = "Mini Map"
+flat = true
+
+[node name="Map" type="CenterContainer" parent="."]
+visible = false
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 958.0
+margin_bottom = 638.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
