@@ -1,0 +1,180 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/sprites/character/character.png" type="Texture" id=1]
+[ext_resource path="res://src/packed-scenes/player.gd" type="Script" id=2]
+
+[sub_resource type="ConvexPolygonShape2D" id=12]
+points = PoolVector2Array( 0, -2, 5, -1, 0, 0, -5, -1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "idle-back"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SprPlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 24, 25, 26, 27, 28, 29 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "idle-front"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SprPlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle-left"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SprPlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14, 15, 16, 17 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "idle-right"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SprPlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 36, 37, 38, 39, 40, 41 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "run-back"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SprPlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 30, 31, 32, 33, 34, 35 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "run-front"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SprPlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 6, 7, 8, 9, 10, 11 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "run-left"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SprPlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 18, 19, 20, 21, 22, 23 ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "run-right"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SprPlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 42, 43, 44, 45, 46, 47 ]
+}
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+deacceleration = 0.5
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource( 12 )
+
+[node name="CamPos" type="Position2D" parent="."]
+
+[node name="Camera" type="Camera2D" parent="CamPos"]
+current = true
+zoom = Vector2( 0.5, 0.5 )
+process_mode = 0
+smoothing_speed = 2.0
+editor_draw_limits = true
+
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+playback_process_mode = 0
+anims/idle-back = SubResource( 4 )
+anims/idle-front = SubResource( 2 )
+anims/idle-left = SubResource( 3 )
+anims/idle-right = SubResource( 5 )
+anims/run-back = SubResource( 10 )
+anims/run-front = SubResource( 6 )
+anims/run-left = SubResource( 9 )
+anims/run-right = SubResource( 11 )
+
+[node name="SprPlayer" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -16 )
+hframes = 12
+vframes = 4
+frame = 25
