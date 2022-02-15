@@ -3,6 +3,7 @@
 .import/
 projects/
 .vscode/
+addons/
 export.cfg
 export_presets.cfg
 
