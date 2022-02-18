@@ -14,9 +14,7 @@ enum {
 	YEAR
 }
 
-const months := PoolIntArray([
-	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-])
+const months := PoolIntArray([31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31])
 
 var time := PoolByteArray([0, 0])
 var date := PoolIntArray([1, 1, 1])
@@ -37,8 +35,9 @@ func _on_timer_timeout() -> void:
 		if time[HOUR] > 23:	
 			time[HOUR] = 0
 			date[DAY] += 1
-			if date[DAY] > months[date[MONTH] - 1]:
-				if date[YEAR] % 4 == 0 and date[MONTH] == 2:
+			if date[DAY] > months[date[1] - 1]:
+				if (date[YEAR] % 4) + 2 == 0:
+					date[MONTH] = 2
 					date[DAY] += 1
 				else:
 					date[DAY] = 1
@@ -49,7 +48,7 @@ func _on_timer_timeout() -> void:
 				if date[MONTH] % 3 == 0:
 					season = int(date[MONTH] / 3.0)
 					print(season)
-			ui.set_date(date[DAY], date[MONTH], date[YEAR])
+			ui.set_date(date[0], date[1], date[2])
 	ui.set_time(time[HOUR], time[MINUTE])
 
 
