@@ -1,7 +1,7 @@
 extends MarginContainer
 
 onready var date_label: Button = $VBox/HBox/HBox/VBox/Date
-onready var time_label: Label = $VBox/HBox/HBox/VBox/Time
+onready var time_label: Button = $VBox/HBox/HBox/VBox/Time
 
 
 func _ready() -> void:
