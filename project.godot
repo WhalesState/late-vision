@@ -20,10 +20,6 @@ window/size/width=960
 window/size/height=640
 window/energy_saving/keep_screen_on=false
 
-[editor_plugins]
-
-enabled=PoolStringArray(  )
-
 [importer_defaults]
 
 texture={
@@ -86,4 +82,17 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 quality/driver/driver_name="GLES2"
+quality/intended_usage/framebuffer_allocation=1
+quality/intended_usage/framebuffer_allocation.mobile=1
 2d/snapping/use_gpu_pixel_snap=true
+threads/thread_model=2
+quality/reflections/texture_array_reflections=false
+quality/reflections/high_quality_ggx=false
+quality/filters/use_nearest_mipmap_filter=true
+gles2/compatibility/disable_half_float=true
+quality/lightmapping/use_bicubic_sampling=false
+quality/depth/hdr=false
+
+[statistics]
+
+force_include=PoolStringArray(  )
