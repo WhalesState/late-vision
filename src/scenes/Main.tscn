@@ -42,7 +42,7 @@ tracks/0/keys = {
 position = Vector2( 0, 1 )
 script = ExtResource( 4 )
 __meta__ = {
-"_editor_description_": "		"
+"_editor_description_": ""
 }
 
 [node name="Timer" type="Timer" parent="."]
@@ -52,6 +52,10 @@ script = ExtResource( 6 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource( 5 )]
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
